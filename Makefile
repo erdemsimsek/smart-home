@@ -1,9 +1,6 @@
 # Project Configuration
 PROJECTS_DIR := projects
 CONFIG_DIR := $(PROJECTS_DIR)/configs
-ACTIVE_PROJECT ?= central_hub  # Make ACTIVE_PROJECT overridable from command line
-PROJECT_CONFIG_DIR := $(CONFIG_DIR)/$(ACTIVE_PROJECT)
-BUILDROOT_CONFIG := $(PROJECT_CONFIG_DIR)/.config
 
 # Build Directories
 BUILD_DIR := build/$(ACTIVE_PROJECT)
@@ -22,34 +19,28 @@ check-project:
 		echo "Error: ACTIVE_PROJECT environment variable is not set."; \
 		exit 1; \
 	fi
-	@if [ ! -d "$(PROJECT_CONFIG_DIR)" ]; then \
-		echo "Error: Project configuration directory '$(PROJECT_CONFIG_DIR)' not found."; \
-		exit 1; \
-	fi
-	@if [ ! -d "$(BUILDROOT_SRC_DIR)" ]; then \
-		echo "Error: Buildroot source directory '$(BUILDROOT_SRC_DIR)' not found."; \
-		exit 1; \
-	fi
 
 # Build Targets
 all: check-project buildroot-build
 
 # Buildroot Targets
 buildroot-defconfig: check-project
-	mkdir -p $(BUILDROOT_BUILD_DIR)
-	$(MAKE) -C $(BUILDROOT_SRC_DIR) ../$(BUILDROOT_O_OPTION) BR2_DEFCONFIG=../$(BUILDROOT_CONFIG) defconfig
+	$(MAKE) -C ${BUILDROOT_SRC_DIR} ${BUILDROOT_O_OPTION} ${ACTIVE_PROJECT}_defconfig
 
 buildroot-menuconfig: check-project
-	$(MAKE) -C $(BUILDROOT_SRC_DIR) ../$(BUILDROOT_O_OPTION) BR2_DEFCONFIG=../$(BUILDROOT_CONFIG) menuconfig
+	$(MAKE) -C $(BUILDROOT_SRC_DIR) ${BUILDROOT_O_OPTION} menuconfig
+
+buildroot-saveconfig: check-project
+	$(MAKE) -C $(BUILDROOT_SRC_DIR) ${BUILDROOT_O_OPTION} savedefconfig
 
 buildroot-build: check-project
-	$(MAKE) -C $(BUILDROOT_SRC_DIR) ../$(BUILDROOT_O_OPTION)
+	$(MAKE) -C $(BUILDROOT_SRC_DIR) ${BUILDROOT_O_OPTION}
 
 buildroot-clean: check-project
-	$(MAKE) -C $(BUILDROOT_SRC_DIR) ../$(BUILDROOT_O_OPTION) clean
+	$(MAKE) -C $(BUILDROOT_SRC_DIR) ${BUILDROOT_O_OPTION} clean
 
 buildroot-dirclean: check-project
-	$(MAKE) -C $(BUILDROOT_SRC_DIR) ../$(BUILDROOT_O_OPTION) distclean
+	$(MAKE) -C $(BUILDROOT_SRC_DIR) ${BUILDROOT_O_OPTION} distclean
 
 # Combined Targets
 clean: check-project buildroot-clean
@@ -67,6 +58,7 @@ help:
 	@echo "  all             : Build Buildroot, Linux, and Application"
 	@echo "  buildroot-defconfig: Generate .config using the specified defconfig"
 	@echo "  buildroot-menuconfig: Configure Buildroot"
+	@echo "  buildroot-saveconfig: Save Buildroot defconfig"
 	@echo "  buildroot-build   : Build Buildroot"
 	@echo "  buildroot-clean   : Clean Buildroot"
 	@echo "  buildroot-dirclean: Distclean Buildroot"

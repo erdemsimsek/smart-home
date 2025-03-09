@@ -1,6 +1,8 @@
 #!/bin/bash
 
 # Script to set ACTIVE_PROJECT environment variable
+export BR2_EXTERNAL=$(pwd)
+
 
 # Define valid project names
 declare -a VALID_PROJECTS=("stm32mp1-dk1" "central_hub" "doorbell")
