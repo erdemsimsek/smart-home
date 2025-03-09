@@ -1,4 +1,4 @@
-config BR2_PACKAGE_HDC3022_APPP
+config BR2_PACKAGE_HDC3022_APP
 	bool "HDC3022_APP"
 	help
-	 Application layer driver for HD3022 temperature and humidty driver
+	 Application layer driver for HD3022 temperature and humidity driver
