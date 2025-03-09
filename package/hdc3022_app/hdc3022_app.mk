@@ -1,7 +1,8 @@
 # package/hdc3022_app/hdc_3022_app.mk
 
 HDC3022_APP_VERSION = 0.1
-HDC3022_APP_SITE =  # Leave empty if the source is local
+HDC3022_APP_SITE = $(TOPDIR)/../package/hdc3022_app
+HDC3022_APP_SITE_METHOD = local
 HDC3022_APP_LICENSE = GPL-2.0-or-later  # Example license
 HDC3022_APP_LICENSE_FILES =  # Leave empty if no separate license file
 HDC3022_APP_INSTALL_TARGET = YES
