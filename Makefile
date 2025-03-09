@@ -25,22 +25,22 @@ all: check-project buildroot-build
 
 # Buildroot Targets
 buildroot-defconfig: check-project
-	$(MAKE) -C ${BUILDROOT_SRC_DIR} ${BUILDROOT_O_OPTION} ${ACTIVE_PROJECT}_defconfig
+	$(MAKE) -C ${BUILDROOT_SRC_DIR} ../${BUILDROOT_O_OPTION} ${ACTIVE_PROJECT}_defconfig
 
 buildroot-menuconfig: check-project
-	$(MAKE) -C $(BUILDROOT_SRC_DIR) ${BUILDROOT_O_OPTION} menuconfig
+	$(MAKE) -C $(BUILDROOT_SRC_DIR) ../${BUILDROOT_O_OPTION} menuconfig
 
 buildroot-saveconfig: check-project
-	$(MAKE) -C $(BUILDROOT_SRC_DIR) ${BUILDROOT_O_OPTION} savedefconfig
+	$(MAKE) -C $(BUILDROOT_SRC_DIR) ../${BUILDROOT_O_OPTION} savedefconfig
 
 buildroot-build: check-project
-	$(MAKE) -C $(BUILDROOT_SRC_DIR) ${BUILDROOT_O_OPTION}
+	$(MAKE) -C $(BUILDROOT_SRC_DIR) ../${BUILDROOT_O_OPTION}
 
 buildroot-clean: check-project
-	$(MAKE) -C $(BUILDROOT_SRC_DIR) ${BUILDROOT_O_OPTION} clean
+	$(MAKE) -C $(BUILDROOT_SRC_DIR) ../${BUILDROOT_O_OPTION} clean
 
 buildroot-dirclean: check-project
-	$(MAKE) -C $(BUILDROOT_SRC_DIR) ${BUILDROOT_O_OPTION} distclean
+	$(MAKE) -C $(BUILDROOT_SRC_DIR) ../${BUILDROOT_O_OPTION} distclean
 
 # Combined Targets
 clean: check-project buildroot-clean
