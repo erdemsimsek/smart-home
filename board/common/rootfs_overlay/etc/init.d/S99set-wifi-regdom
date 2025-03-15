@@ -1,0 +1,20 @@
+ #!/bin/sh
+
+ case "$1" in
+   start)
+       printf -t "S45wifi Starting Wi-Fi..."
+       iw reg set GB
+       modprobe brcmfmac
+       rfkill unblock wifi
+       ip link set wlan0 up
+
+       # Start wpa_supplicant (in the background)
+       wpa_supplicant -B -Dnl80211 -iwlan0 -c/etc/wpa_supplicant.conf
+
+       # Get an IP address (using udhcpc - Busybox's DHCP client)
+       dhclient wlan0
+       ;;
+   stop)
+       printf -t "S45wifi Stopping Wi-Fi..."
+       ;;
+ esac
