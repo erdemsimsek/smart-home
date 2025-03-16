@@ -1,0 +1,1 @@
+source "$BR2_EXTERNAL_SMARTHOME_PATH/package/hdc3022_app/Config.in"
