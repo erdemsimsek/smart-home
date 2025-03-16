@@ -42,6 +42,20 @@ buildroot-clean: check-project
 buildroot-dirclean: check-project
 	$(MAKE) -C $(BUILDROOT_SRC_DIR) $(BUILDROOT_O_OPTION) distclean
 
+buildroot-delete-build:
+	rm -rf $(BUILD_OUTPUT_DIR)
+
+# Linux kernel targets
+linux-menuconfig: check-project
+	$(MAKE) -C $(BUILDROOT_SRC_DIR) $(BUILDROOT_O_OPTION) BR2_EXTERNAL=$(BR2_EXTERNAL) linux-menuconfig
+
+linux-savedefconfig: check-project
+	$(MAKE) -C $(BUILDROOT_SRC_DIR) $(BUILDROOT_O_OPTION) BR2_EXTERNAL=$(BR2_EXTERNAL) linux-savedefconfig
+	cp $(BUILDROOT_BUILD_DIR)/build/linux-custom/defconfig board/$(ACTIVE_PROJECT)/linux.config
+
+linux-rebuild: check-project
+	$(MAKE) -C $(BUILDROOT_SRC_DIR) $(BUILDROOT_O_OPTION) BR2_EXTERNAL=$(BR2_EXTERNAL) linux-rebuild
+
 # --- Dynamic Package Targets ---
 
 # Find all package makefiles in the external tree
